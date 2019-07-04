@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import exampleAction from "../actions/exampleAction";
+import { exampleAction } from "../actions/exampleAction";
 
 // class ExampleComponent extends Component {
 //   render() {
@@ -26,6 +26,7 @@ const mapStateToProps = state => {
   };
 };
 
+//to be determined if it's good in the future, if not than get rid of this
 const mapDispatchToProps = dispatch => {
   return {
     methodA: () => dispatch(exampleAction.methodA),

@@ -1,4 +1,4 @@
-import { FETCH_POSTS } from "../actions/types";
+import { actionTypes } from "../actions/types";
 
 const initialState = {
   //your state format, it can be any formate, here is a object
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_POSTS:
+    case actionTypes.FETCH_POSTS:
       return {
         //set your state
       };

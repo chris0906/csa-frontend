@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { reduxForm, Field } from "redux-form";
+import { submit } from "../actions/verificationAction";
 
 // reactstrap components
 import {
@@ -22,22 +22,10 @@ import {
 import nowLogo from "../assets/img/now-logo.png";
 import bgImage from "../assets/img/bg14.jpg";
 
-const validate = values => {
-  const errors = {};
-  if (!values.email) {
-    errors.email = "required";
-  }
-  if (!values.password) {
-    errors.password = "required";
-  }
-  return errors;
-};
-
-//has-success or has-danger
-const RenderInput = ({ input, meta, label, ...rest }) => (
+const RenderInput = ({ input, meta: { active }, label, type }) => (
   <InputGroup
     className={
-      "no-border form-control-lg " + (meta.active ? "input-group-focus" : "")
+      "no-border form-control-lg " + (active ? "input-group-focus" : "")
     }
   >
     <InputGroupAddon addonType="prepend">
@@ -45,7 +33,7 @@ const RenderInput = ({ input, meta, label, ...rest }) => (
         <i className="now-ui-icons users_circle-08" />
       </InputGroupText>
     </InputGroupAddon>
-    <Input type="text" placeholder={label} {...input} />
+    <Input type={type} placeholder={label} {...input} />
   </InputGroup>
 );
 
@@ -53,14 +41,15 @@ class LoginPage extends Component {
   render() {
     return (
       <>
+        {/* for sidebar  */}
         <div className="wrapper wrapper-full-page" ref="fullPages">
-          {/* filter-color could be multiple different color */}
+          {/* for bg image and filter-color could be multiple different color */}
           <div className="full-page section-image" filter-color="yellow">
             <div className="content">
               <div className="login-page">
                 <Container>
                   <Col xs={12} md={8} lg={4} className="ml-auto mr-auto">
-                    <Form>
+                    <Form onSubmit={this.props.handleSubmit(submit)}>
                       <Card className="card-login card-plain">
                         <CardHeader>
                           <div className="logo-container">
@@ -70,22 +59,31 @@ class LoginPage extends Component {
                         <CardBody>
                           <Field
                             name="email"
+                            type="email"
                             label="Email"
                             component={RenderInput}
                           />
                           <Field
                             name="password"
+                            type="password"
                             label="Password"
                             component={RenderInput}
                           />
+                          {this.props.error && (
+                            <span className="text-danger">
+                              {this.props.error}
+                            </span>
+                          )}
                         </CardBody>
                         <CardFooter>
                           <Button
                             block
                             color="primary"
                             size="lg"
-                            href="#pablo"
+                            href=""
                             className="mb-3 btn-round"
+                            type="submit"
+                            disabled={this.props.submitting}
                           >
                             Get Started
                           </Button>
@@ -127,8 +125,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {};
 
 LoginPage = reduxForm({
-  form: "loginPage",
-  validate
+  form: "loginPage"
 })(LoginPage);
 
 export default LoginPage;
