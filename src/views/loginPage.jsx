@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { submit } from "../actions/verificationAction";
+import classNames from "classnames";
 
 // reactstrap components
 import {
@@ -30,7 +31,15 @@ const RenderInput = ({ input, meta: { active }, label, type }) => (
   >
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
-        <i className="now-ui-icons users_circle-08" />
+        <i
+          className={
+            "now-ui-icons " +
+            classNames(
+              { "users_circle-08": input.name === "firstName" },
+              { "text_caps-small": input.name === "lastName" }
+            )
+          }
+        />
       </InputGroupText>
     </InputGroupAddon>
     <Input type={type} placeholder={label} {...input} />
@@ -85,7 +94,7 @@ class LoginPage extends Component {
                             type="submit"
                             disabled={this.props.submitting}
                           >
-                            Get Started
+                            Login
                           </Button>
                           <div className="pull-left">
                             <h6>
@@ -122,10 +131,8 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {};
-
 LoginPage = reduxForm({
-  form: "loginPage"
+  form: "loginForm"
 })(LoginPage);
 
 export default LoginPage;
