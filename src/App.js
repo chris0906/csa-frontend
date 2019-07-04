@@ -1,9 +1,10 @@
 import React from "react";
+import LoginPage from "./views/loginPage";
 
 function App() {
   return (
     <div>
-      <h1>Connector</h1>
+      <LoginPage />
     </div>
   );
 }

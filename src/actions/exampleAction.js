@@ -1,17 +1,17 @@
-import { FETCH_POSTS } from "./types";
+import { actionTypes } from "./types";
 
 const methodA = () => dispatch => {
   dispatch({
-    type: FETCH_POSTS,
+    type: actionTypes.FETCH_POSTS,
     payload: "your content"
   });
 };
 
 const methodB = parameter => dispatch => {
   dispatch({
-    type: FETCH_POSTS,
+    type: actionTypes.FETCH_POSTS,
     payload: "your content"
   });
 };
 
-export default { methodA, methodB };
+export const exampleAction = { methodA, methodB };
