@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import isValidEmail from "sane-email-validation";
 import classNames from "classnames";
+import Joi from "joi-browser";
 
 // reactstrap components
 import {
@@ -24,7 +24,7 @@ import {
   Alert
 } from "reactstrap";
 
-// core components
+// core components active ? "input-group-focus" : ""
 import bgImage from "../assets/img/bg16.jpg";
 
 const RenderInput = ({
@@ -34,7 +34,12 @@ const RenderInput = ({
   label
 }) => (
   <div>
-    <InputGroup className={active ? "input-group-focus" : ""}>
+    <InputGroup
+      className={classNames(
+        { "input-group-focus": active },
+        { "has-success": !error }
+      )}
+    >
       <InputGroupAddon addonType="prepend">
         <InputGroupText>
           <i
@@ -65,25 +70,43 @@ const RenderInput = ({
   </div>
 );
 
+const schema = {
+  firstName: Joi.string()
+    .alphanum() //Requires the string value to only contain a-z, A-Z, and 0-9.
+    .min(2)
+    .max(30)
+    .required()
+    .label("First Name"),
+  lastName: Joi.string()
+    .min(2)
+    .max(30)
+    .required()
+    .label("Last Name"),
+  email: Joi.string()
+    .email()
+    .required()
+    .label("Email"),
+  password: Joi.string()
+    .regex(/^[a-zA-Z0-9]{6,30}$/)
+    .required()
+    .error(err => ({
+      message:
+        "Password must should contain a-z, A-Z, and 0-9, and at least 6 length"
+    }))
+    .label("Password"),
+  confirmPassword: Joi.any()
+    .valid(Joi.ref("password"))
+    .required()
+    .options({ language: { any: { allowOnly: "must match password" } } })
+    .label("Password Confirmation")
+};
+
 const validate = values => {
   const errors = {};
-  if (!values.firstName) {
-    errors.firstName = "Required";
-  }
-  if (!values.lastName) {
-    errors.lastName = "Required";
-  }
-  if (!values.email) {
-    errors.email = "Required";
-  } else if (!isValidEmail(values.email)) {
-    errors.email = "Invalid Email";
-  }
-  if (!values.password) {
-    errors.password = "Required";
-  }
-  if (!values.confirmPassword) {
-    errors.confirmPassword = "Required";
-  }
+  const { error } = Joi.validate(values, schema, { abortEarly: false });
+  if (!error) return null;
+  for (let item of error.details) errors[item.path[0]] = item.message;
+
   return errors;
 };
 
@@ -196,69 +219,10 @@ class RegisterPage extends Component {
                             />
                             <Field
                               type="password"
-                              label="Confirm Password"
+                              label="Password Confirmation"
                               name="confirmPassword"
                               component={RenderInput}
                             />
-                            {/* <InputGroup
-                          className={
-                            this.state.firstnameFocus ? "input-group-focus" : ""
-                          }
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="now-ui-icons users_circle-08" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            type="text"
-                            placeholder="First Name..."
-                            onFocus={e =>
-                              this.setState({ firstnameFocus: true })
-                            }
-                            onBlur={e =>
-                              this.setState({ firstnameFocus: false })
-                            }
-                          />
-                        </InputGroup>
-                        <InputGroup
-                          className={
-                            this.state.lastnameFocus ? "input-group-focus" : ""
-                          }
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="now-ui-icons text_caps-small" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            type="text"
-                            placeholder="Last Name..."
-                            onFocus={e =>
-                              this.setState({ lastnameFocus: true })
-                            }
-                            onBlur={e =>
-                              this.setState({ lastnameFocus: false })
-                            }
-                          />
-                        </InputGroup>
-                        <InputGroup
-                          className={
-                            this.state.emailFocus ? "input-group-focus" : ""
-                          }
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="now-ui-icons ui-1_email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            type="email"
-                            placeholder="Email..."
-                            onFocus={e => this.setState({ emailFocus: true })}
-                            onBlur={e => this.setState({ emailFocus: false })}
-                          />
-                        </InputGroup> */}
                             <FormGroup check>
                               <Label check>
                                 <Input type="checkbox" />
@@ -275,8 +239,10 @@ class RegisterPage extends Component {
                           <Button
                             color="primary"
                             size="lg"
-                            className="btn-round"
+                            className="mb-3 btn-round"
                             href="#pablo"
+                            // type="submit"
+                            disabled={this.props.submitting}
                           >
                             Register
                           </Button>
