@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/scss/now-ui-dashboard.scss?v=1.3.0";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
