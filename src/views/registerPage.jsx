@@ -163,7 +163,7 @@ class RegisterPage extends Component {
                         </div>
                       </div>
                     </Col>
-                    <Col lg={4} md={8} xs={12}>
+                    <Col lg={5} md={8} xs={12}>
                       <Card className="card-signup">
                         <CardHeader className="text-center">
                           <CardTitle tag="h4">Register</CardTitle>
