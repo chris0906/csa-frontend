@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-// react plugin for creating notifications
-import NotificationAlert from "react-notification-alert";
 
 // core components
 import AdminNavbar from "../components/Navbars/AdminNavbar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
-import FixedPlugin from "../components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "../routes.js";
 
@@ -79,12 +76,7 @@ class Admin extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Sidebar
-          {...this.props}
-          routes={routes}
-          // minimizeSidebar={this.minimizeSidebar}
-          backgroundColor={"blue"}
-        />
+        <Sidebar {...this.props} routes={routes} backgroundColor="black" />
         <div className="main-panel" ref={this.mainPanel}>
           <AdminNavbar
             {...this.props}
@@ -92,7 +84,7 @@ class Admin extends Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="/admin" to="/admin/dashboard" />
+            <Redirect to="/admin/dashboard" />
           </Switch>
           {// we don't want the Footer to be rendered on full screen maps page
           window.location.href.indexOf("full-screen-maps") !== -1 ? null : (

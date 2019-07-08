@@ -1,7 +1,7 @@
 import React from "react";
 // import LoginPage from "./views/loginPage";
 // import RegisterPage from "./views/registerPage";
-import { Route } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import Admin from "./views/admin";
 
 function App() {
@@ -9,8 +9,10 @@ function App() {
     <div>
       {/* <LoginPage /> */}
       {/* <RegisterPage /> */}
-      {/* <Route path="/admin/dashboard" component={Admin}></Route> */}
-      <Admin />
+      <Switch>
+        <Route path="/admin/" component={Admin} />
+        <Redirect to="/admin" />
+      </Switch>
     </div>
   );
 }

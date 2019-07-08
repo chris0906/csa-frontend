@@ -165,8 +165,8 @@ class Sidebar extends React.Component {
                 outline
                 className="btn-round btn-icon"
                 color="neutral"
-                id="minimizeSidebar"
-                onClick={() => this.props.minimizeSidebar()}
+                // id="minimizeSidebar"
+                // onClick={() => this.props.minimizeSidebar()}
               >
                 <i className="now-ui-icons text_align-center visible-on-sidebar-regular" />
                 <i className="now-ui-icons design_bullet-list-67 visible-on-sidebar-mini" />
@@ -227,9 +227,9 @@ class Sidebar extends React.Component {
 
 Sidebar.defaultProps = {
   routes: [],
-  showNotification: false,
-  backgroundColor: "blue",
-  minimizeSidebar: () => {}
+  // showNotification: false,
+  backgroundColor: "blue"
+  // minimizeSidebar: () => {}
 };
 
 Sidebar.propTypes = {
@@ -243,7 +243,8 @@ Sidebar.propTypes = {
     "yellow",
     "green",
     "orange",
-    "red"
+    "red",
+    "black"
   ]),
   // function that is called upon pressing the button near the logo
   minimizeSidebar: PropTypes.func
