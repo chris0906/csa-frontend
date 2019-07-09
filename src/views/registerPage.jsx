@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import classNames from "classnames";
 import Joi from "joi-browser";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -26,6 +27,19 @@ import {
 
 // core components active ? "input-group-focus" : ""
 import bgImage from "../assets/img/bg16.jpg";
+
+axios.interceptors.response.use(null, error => {
+  const expectedErrors =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500;
+  if (!expectedErrors) {
+    //unexpected error
+    console.log("Logging the error", error);
+    console.log("unexpected error occurred");
+  }
+  return Promise.reject(error);
+});
 
 const RenderInput = ({
   meta: { active, error, touched },
@@ -110,6 +124,33 @@ const validate = values => {
   return errors;
 };
 
+const apiEndpoint =
+  "https://cors-anywhere.herokuapp.com/http://connect-and-serve-dev.ap-south-1.elasticbeanstalk.com";
+
+async function submit(values) {
+  const postUserData = {
+    first_name: values.firstName,
+    last_name: values.lastName,
+    email: values.email,
+    password: values.password
+  };
+  try {
+    const result = await axios.post(
+      apiEndpoint + "/account/users/",
+      postUserData
+    );
+    console.log(result);
+  } catch (ex) {
+    // ex.request //if submit to server succcessfuly request will be set, otherwise will be null
+    // ex.response //if there is no response from server, response will be null
+
+    //expected error
+    if (ex.response && ex.response.status === 400) {
+      console.log("this email has already been used");
+    }
+  }
+}
+
 class RegisterPage extends Component {
   render() {
     return (
@@ -164,35 +205,35 @@ class RegisterPage extends Component {
                       </div>
                     </Col>
                     <Col lg={5} md={8} xs={12}>
-                      <Card className="card-signup">
-                        <CardHeader className="text-center">
-                          <CardTitle tag="h4">Register</CardTitle>
-                          <div className="social btns-mr-5">
-                            <Button
-                              className="btn-icon btn-round"
-                              color="twitter"
-                            >
-                              <i className="fab fa-twitter" />
-                            </Button>
-                            <Button
-                              className="btn-icon btn-round"
-                              color="dribbble"
-                            >
-                              <i className="fab fa-dribbble" />
-                            </Button>
-                            <Button
-                              className="btn-icon btn-round"
-                              color="facebook"
-                            >
-                              <i className="fab fa-facebook-f" />
-                            </Button>
-                            <h5 className="card-description">
-                              or be classical
-                            </h5>
-                          </div>
-                        </CardHeader>
-                        <CardBody>
-                          <Form>
+                      <Form onSubmit={this.props.handleSubmit(submit)}>
+                        <Card className="card-signup">
+                          <CardHeader className="text-center">
+                            <CardTitle tag="h4">Register</CardTitle>
+                            <div className="social btns-mr-5">
+                              <Button
+                                className="btn-icon btn-round"
+                                color="twitter"
+                              >
+                                <i className="fab fa-twitter" />
+                              </Button>
+                              <Button
+                                className="btn-icon btn-round"
+                                color="dribbble"
+                              >
+                                <i className="fab fa-dribbble" />
+                              </Button>
+                              <Button
+                                className="btn-icon btn-round"
+                                color="facebook"
+                              >
+                                <i className="fab fa-facebook-f" />
+                              </Button>
+                              <h5 className="card-description">
+                                or be classical
+                              </h5>
+                            </div>
+                          </CardHeader>
+                          <CardBody>
                             <Field
                               type="text"
                               label="First Name"
@@ -233,21 +274,20 @@ class RegisterPage extends Component {
                                 </div>
                               </Label>
                             </FormGroup>
-                          </Form>
-                        </CardBody>
-                        <CardFooter className="text-center">
-                          <Button
-                            color="primary"
-                            size="lg"
-                            className="mb-3 btn-round"
-                            href="#pablo"
-                            // type="submit"
-                            disabled={this.props.submitting}
-                          >
-                            Register
-                          </Button>
-                        </CardFooter>
-                      </Card>
+                          </CardBody>
+                          <CardFooter className="text-center">
+                            <Button
+                              color="primary"
+                              size="lg"
+                              className="mb-3 btn-round"
+                              type="submit"
+                              disabled={this.props.submitting}
+                            >
+                              Register
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </Form>
                     </Col>
                   </Row>
                 </Container>
