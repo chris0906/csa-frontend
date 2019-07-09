@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { submit } from "../actions/verificationAction";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
+import http from "../services/httpService";
+import config from "../config";
+import { SubmissionError } from "redux-form";
 
 // reactstrap components
 import {
@@ -47,6 +51,21 @@ const RenderInput = ({ input, meta: { active }, label, type }) => (
 );
 
 class LoginPage extends Component {
+  submit = async values => {
+    try {
+      const {
+        data: { token }
+      } = await http.post(config.apiEndPoint + config.loginRoute, values);
+      localStorage.setItem("token", token);
+      this.props.history.push("/admin");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        throw new SubmissionError({
+          _error: "Login failed:Email or Password is not correct"
+        });
+      }
+    }
+  };
   render() {
     return (
       <>
@@ -58,7 +77,7 @@ class LoginPage extends Component {
               <div className="login-page">
                 <Container>
                   <Col xs={12} md={8} lg={4} className="ml-auto mr-auto">
-                    <Form onSubmit={this.props.handleSubmit(submit)}>
+                    <Form onSubmit={this.props.handleSubmit(this.submit)}>
                       <Card className="card-login card-plain">
                         <CardHeader>
                           <div className="logo-container">
@@ -98,9 +117,9 @@ class LoginPage extends Component {
                           </Button>
                           <div className="pull-left">
                             <h6>
-                              <a href="#pablo" className="link footer-link">
+                              <Link to="/register" className="link footer-link">
                                 Create Account
-                              </a>
+                              </Link>
                             </h6>
                           </div>
                           <div className="pull-right">

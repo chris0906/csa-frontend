@@ -1,0 +1,5 @@
+{
+  "apiEndPoint": "https://cors-anywhere.herokuapp.com/http://connect-and-serve-dev.ap-south-1.elasticbeanstalk.com",
+  "registerRoute": "/account/users/",
+  "loginRoute": "/account/api-token-auth/"
+}

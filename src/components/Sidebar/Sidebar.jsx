@@ -10,8 +10,8 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { Nav, Collapse, Button } from "reactstrap";
 
 // core components
-import avatar from "assets/img/ryan.jpg";
-import logo from "logo-white.svg";
+import avatar from "../../assets/img/ryan.jpg";
+import logo from "../../logo-white.svg";
 
 var ps;
 
@@ -78,10 +78,7 @@ class Sidebar extends React.Component {
         var st = {};
         st[prop["state"]] = !this.state[prop.state];
         return (
-          <li
-            className={this.getCollapseInitialState(prop.views) ? "active" : ""}
-            key={key}
-          >
+          <li key={key}>
             <a
               href="#pablo"
               data-toggle="collapse"
@@ -117,7 +114,11 @@ class Sidebar extends React.Component {
       }
       return (
         <li className={this.activeRoute(prop.layout + prop.path)} key={key}>
-          <NavLink to={prop.layout + prop.path} activeClassName="">
+          <NavLink
+            onClick={() => this.setState({ state: this.state })} //in order to re-render this NavLink to make <li> attribute highlighted
+            to={prop.layout + prop.path}
+            activeClassName=""
+          >
             {prop.icon !== undefined ? (
               <>
                 <i className={prop.icon} />
@@ -164,8 +165,8 @@ class Sidebar extends React.Component {
                 outline
                 className="btn-round btn-icon"
                 color="neutral"
-                id="minimizeSidebar"
-                onClick={() => this.props.minimizeSidebar()}
+                // id="minimizeSidebar"
+                // onClick={() => this.props.minimizeSidebar()}
               >
                 <i className="now-ui-icons text_align-center visible-on-sidebar-regular" />
                 <i className="now-ui-icons design_bullet-list-67 visible-on-sidebar-mini" />
@@ -226,9 +227,9 @@ class Sidebar extends React.Component {
 
 Sidebar.defaultProps = {
   routes: [],
-  showNotification: false,
-  backgroundColor: "blue",
-  minimizeSidebar: () => {}
+  // showNotification: false,
+  backgroundColor: "blue"
+  // minimizeSidebar: () => {}
 };
 
 Sidebar.propTypes = {
@@ -242,7 +243,8 @@ Sidebar.propTypes = {
     "yellow",
     "green",
     "orange",
-    "red"
+    "red",
+    "black"
   ]),
   // function that is called upon pressing the button near the logo
   minimizeSidebar: PropTypes.func
