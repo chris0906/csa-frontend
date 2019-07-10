@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import { submit } from "../actions/verificationAction";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import http from "../services/httpService";

@@ -121,11 +121,8 @@ class RegisterPage extends Component {
       password: values.password
     };
     try {
-      const result = await http.post(
-        config.apiEndPoint + config.registerRoute,
-        postUserData
-      );
-      console.log(result);
+      await http.post(config.apiEndPoint + config.registerRoute, postUserData);
+      // do some waiting render stuff......
       this.props.history.push("/admin");
     } catch (ex) {
       //expected error
