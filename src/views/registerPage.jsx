@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { reduxForm, Field, SubmissionError } from "redux-form";
 import classNames from "classnames";
 import Joi from "joi-browser";
-import http from "../services/httpService";
-import config from "../config";
+import auth from "../services/userAuthService";
+import NotificationModal from "./viewsComponents/notificationModal";
 
 // reactstrap components
 import {
@@ -92,8 +92,7 @@ const schema = {
     .regex(/^[a-zA-Z0-9]{6,30}$/)
     .required()
     .error(err => ({
-      message:
-        "Password must should contain a-z, A-Z, and 0-9, and at least 6 length"
+      message: "Password should contain a-z, A-Z, or 0-9, and at least 6 length"
     }))
     .label("Password"),
   confirmPassword: Joi.any()
@@ -113,17 +112,21 @@ const validate = values => {
 };
 
 class RegisterPage extends Component {
+  state = {
+    showModal: false
+  };
+
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  };
+
   submit = async values => {
-    const postUserData = {
-      first_name: values.firstName,
-      last_name: values.lastName,
-      email: values.email,
-      password: values.password
-    };
     try {
-      await http.post(config.apiEndPoint + config.registerRoute, postUserData);
-      // do some waiting render stuff......
-      this.props.history.push("/admin");
+      await auth.register(values);
+      //show successful notification
+      this.toggleModal();
     } catch (ex) {
       //expected error
       if (ex.response && ex.response.status === 400) {
@@ -134,7 +137,6 @@ class RegisterPage extends Component {
       }
     }
   };
-
   render() {
     return (
       <>
@@ -145,6 +147,14 @@ class RegisterPage extends Component {
             <div className="content">
               <div className="register-page">
                 <Container>
+                  <NotificationModal
+                    title="Registration Succeed"
+                    message="A Verification Email has been sent to your Email Address,Please
+            verify it before logging in"
+                    showModal={this.state.showModal}
+                    toggleModal={this.toggleModal}
+                    pathname="/login"
+                  />
                   <Row className="justify-content-center">
                     <Col lg={5} md={8} xs={12}>
                       <div className="info-area info-horizontal mt-5">

@@ -1,20 +1,15 @@
 import React, { Component } from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
+import NotificationAlert from "react-notification-alert";
 import LoginPage from "./views/loginPage";
 import RegisterPage from "./views/registerPage";
-import { Route, Redirect, Switch } from "react-router-dom";
 import Admin from "./views/admin";
 import HomePage from "./views/homePage";
-import NotificationAlert from "react-notification-alert";
+import ProtectedRoute from "./views/viewsComponents/protectedRoute";
 
 class App extends Component {
   notificationAlert = React.createRef();
   notify = (place, message, type) => {
-    // tl - notification will be rendered in the top-left corner of the screen
-    // tc - notification will be rendered in the top-center corner of the screen
-    // tr - notification will be rendered in the top-right corner of the screen
-    // bl - notification will be rendered in the bottom-left corner of the screen
-    // bc - notification will be rendered in the bottom-center corner of the screen
-    // br - notification will be rendered in the bottom-right corner of the screen
     const options = {
       place: place,
       message: (
@@ -35,8 +30,8 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={LoginPage} />
           <Route path="/register" component={RegisterPage} />
-          <Route path="/admin" component={Admin} />
-          <Route exact path="/" component={HomePage} />
+          <ProtectedRoute path="/admin" component={Admin} />
+          <Route path="/" component={HomePage} />
           <Redirect to="/" />
         </Switch>
       </div>

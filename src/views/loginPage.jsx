@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
-import http from "../services/httpService";
-import config from "../config";
-import { SubmissionError } from "redux-form";
+import { Link, Redirect } from "react-router-dom";
+import auth from "../services/userAuthService";
+import { SubmissionError, clearSubmitErrors } from "redux-form";
+import { isVerifiedUser } from "../services/userAuthService";
+import store from "../store";
 
 // reactstrap components
 import {
@@ -52,11 +53,12 @@ const RenderInput = ({ input, meta: { active }, label, type }) => (
 class LoginPage extends Component {
   submit = async values => {
     try {
-      const {
-        data: { token }
-      } = await http.post(config.apiEndPoint + config.loginRoute, values);
-      localStorage.setItem("token", token);
-      this.props.history.push("/admin");
+      store.dispatch(clearSubmitErrors("loginForm")); //clear error for each submit
+      await auth.login(values.email, values.password);
+      //if user authentication expires during operation then redirect to loginpage
+      //and if login succeed, then redirect to where user wantted to go before
+      const { state } = this.props.location;
+      this.props.history.push(state ? state.from.pathname : "/admin/dashboard");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         throw new SubmissionError({
@@ -66,6 +68,7 @@ class LoginPage extends Component {
     }
   };
   render() {
+    if (isVerifiedUser()) return <Redirect to="/admin/dashboard" />;
     return (
       <>
         {/* for sidebar  */}

@@ -4,15 +4,27 @@ import rootReducer from "./reducers";
 
 const initialState = {};
 
-const middleware = [thunk];
+let middleware = [thunk];
 
-const store = createStore(
-  rootReducer,
-  initialState,
-  compose(
-    applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+let store;
+
+if (process.env.NODE_ENV === "production") {
+  store = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(...middleware)
+  );
+} else {
+  middleware = [require("redux-immutable-state-invariant").default(), thunk];
+  store = createStore(
+    rootReducer,
+    initialState,
+    compose(
+      applyMiddleware(...middleware),
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+  );
+}
 
 export default store;

@@ -1,4 +1,7 @@
 import axios from "axios";
+import Logger from "../services/logService";
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.response.use(null, error => {
   // error.request //if submit to server succcessfuly request will be set, otherwise will be null
@@ -10,7 +13,7 @@ axios.interceptors.response.use(null, error => {
   if (!expectedErrors) {
     //unexpected error
     window.App.notify("tc", "An unexpected error occurred", "warning");
-    console.log("Logging the error", error);
+    Logger.logError(error);
   }
   return Promise.reject(error);
 });
