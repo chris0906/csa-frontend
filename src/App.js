@@ -3,8 +3,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import NotificationAlert from "react-notification-alert";
 import LoginPage from "./views/loginPage";
 import RegisterPage from "./views/registerPage";
-import Admin from "./views/admin";
-import HomePage from "./views/homePage";
+import Admin from "./views/adminView/admin";
 import ProtectedRoute from "./views/viewsComponents/protectedRoute";
 
 class App extends Component {
@@ -31,8 +30,7 @@ class App extends Component {
           <Route path="/login" component={LoginPage} />
           <Route path="/register" component={RegisterPage} />
           <ProtectedRoute path="/admin" component={Admin} />
-          <Route path="/" component={HomePage} />
-          <Redirect to="/" />
+          <Redirect to="/login" />
         </Switch>
       </div>
     );

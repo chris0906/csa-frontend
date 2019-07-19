@@ -1,6 +1,6 @@
-import Dashboard from "./views/dashboard";
-import FullScreenMap from "./views/fullScreenMap";
-import GoogleMaps from "./views/googleMaps";
+import Dashboard from "./views/adminView/dashboard";
+import Wizard from "./views/adminView/automate/sequence/wizard";
+import Integrations from "./views/adminView/integrations";
 
 const routes = [
   {
@@ -11,27 +11,18 @@ const routes = [
     layout: "/admin"
   },
   {
-    collapse: true,
-    path: "/maps",
-    name: "Maps",
-    state: "openMaps",
+    path: "/automate",
+    name: "Automate",
+    component: Wizard,
     icon: "now-ui-icons location_pin",
-    views: [
-      {
-        path: "/google-maps",
-        name: "Google Maps",
-        mini: "GM",
-        component: GoogleMaps,
-        layout: "/admin"
-      },
-      {
-        path: "/full-screen-maps",
-        name: "Full Screen Map",
-        mini: "FSM",
-        component: FullScreenMap,
-        layout: "/admin"
-      }
-    ]
+    layout: "/admin"
+  },
+  {
+    path: "/integrations",
+    name: "Integrations",
+    component: Integrations,
+    icon: "now-ui-icons location_pin",
+    layout: "/admin"
   }
 ];
 

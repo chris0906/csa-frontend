@@ -120,17 +120,6 @@ class AdminNavbar extends React.Component {
             navbar
             className="justify-content-end"
           >
-            <form>
-              <InputGroup className="no-border">
-                <Input placeholder="Search..." />
-
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="now-ui-icons ui-1_zoom-bold" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
             <Nav navbar>
               <NavItem>
                 <Link to="#pablo" className="nav-link">
@@ -146,25 +135,16 @@ class AdminNavbar extends React.Component {
                 toggle={e => this.dropdownToggle(e)}
               >
                 <DropdownToggle caret nav>
-                  <i className="now-ui-icons location_world" />
+                  <i className="now-ui-icons users_single-02" />
                   <p>
                     <span className="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
+                  <DropdownItem tag="a">Edit Profile</DropdownItem>
+                  <DropdownItem tag="a">Log out</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <NavItem>
-                <Link to="#pablo" className="nav-link">
-                  <i className="now-ui-icons users_single-02" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </Link>
-              </NavItem>
             </Nav>
           </Collapse>
         </Container>

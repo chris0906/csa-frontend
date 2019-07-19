@@ -10,7 +10,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { Nav, Collapse, Button } from "reactstrap";
 
 // core components
-import avatar from "../../assets/img/ryan.jpg";
+import avatar from "../../assets/img/alibaba.png";
 import logo from "../../logo-white.svg";
 
 var ps;
@@ -158,7 +158,7 @@ class Sidebar extends React.Component {
               className="simple-text logo-normal"
               target="_blank"
             >
-              Creative Tim
+              CSA
             </a>
             <div className="navbar-minimize">
               <Button
@@ -189,7 +189,7 @@ class Sidebar extends React.Component {
                   }
                 >
                   <span>
-                    Ryan Gosling
+                    Alibaba
                     <b className="caret" />
                   </span>
                 </a>
@@ -197,20 +197,20 @@ class Sidebar extends React.Component {
                   <ul className="nav">
                     <li>
                       <a href="#pablo" onClick={e => e.preventDefault}>
-                        <span className="sidebar-mini-icon">MP</span>
-                        <span className="sidebar-normal">My Profile</span>
+                        <span className="sidebar-mini-icon">HW</span>
+                        <span className="sidebar-normal">Hua Wei</span>
                       </a>
                     </li>
                     <li>
                       <a href="#pablo" onClick={e => e.preventDefault}>
-                        <span className="sidebar-mini-icon">EP</span>
-                        <span className="sidebar-normal">Edit Profile</span>
+                        <span className="sidebar-mini-icon">T</span>
+                        <span className="sidebar-normal">Tencent</span>
                       </a>
                     </li>
                     <li>
                       <a href="#pablo" onClick={e => e.preventDefault}>
-                        <span className="sidebar-mini-icon">S</span>
-                        <span className="sidebar-normal">Settings</span>
+                        <span className="sidebar-mini-icon">BD</span>
+                        <span className="sidebar-normal">Bytesdance</span>
                       </a>
                     </li>
                   </ul>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // core components
-import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
+import PanelHeader from "../../components/PanelHeader/PanelHeader.jsx";
 
 class Dashboard extends Component {
   render() {

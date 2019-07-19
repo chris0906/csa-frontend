@@ -4,11 +4,10 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // core components
-import AdminNavbar from "../components/Navbars/AdminNavbar.jsx";
-import Footer from "../components/Footer/Footer.jsx";
-import Sidebar from "../components/Sidebar/Sidebar.jsx";
+import AdminNavbar from "../../components/Navbars/AdminNavbar.jsx";
+import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 
-import routes from "../routes.js";
+import routes from "../../routes.js";
 
 let ps;
 
@@ -76,7 +75,7 @@ class Admin extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Sidebar {...this.props} routes={routes} backgroundColor="black" />
+        <Sidebar {...this.props} routes={routes} backgroundColor="blue" />
         <div className="main-panel" ref={this.mainPanel}>
           <AdminNavbar
             {...this.props}
@@ -86,10 +85,6 @@ class Admin extends Component {
             {this.getRoutes(routes)}
             <Redirect to="/admin/dashboard" />
           </Switch>
-          {// we don't want the Footer to be rendered on full screen maps page
-          window.location.href.indexOf("full-screen-maps") !== -1 ? null : (
-            <Footer fluid />
-          )}
         </div>
       </div>
     );

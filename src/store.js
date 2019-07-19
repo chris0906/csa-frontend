@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "production") {
     applyMiddleware(...middleware)
   );
 } else {
-  middleware = [require("redux-immutable-state-invariant").default(), thunk];
+  middleware = [thunk];
   store = createStore(
     rootReducer,
     initialState,
